@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog Web{% endblock %}
+
+{% block body %}
+
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark special-color-dark">
+    <a class="navbar-brand" href="#">Blog Web &nbsp; <i class="fas fa-blog"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+      aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+      <ul class="navbar-nav mr-auto">
+        
+      </ul>
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link waves-effect waves-light">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-effect waves-light">
+            <i class="fab fa-google-plus-g"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-default"
+            aria-labelledby="navbarDropdownMenuLink-333">
+            <a class="dropdown-item" href="" data-toggle="modal" data-target="#modalLoginForm">Iniciar Sesión</a>
+            <a class="dropdown-item" href="" data-toggle="modal" data-target="#modalRegisterForm">Registrarse</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+
+<div class="card mt-5 container">
+    <h5 class="card-header h5">Blog Web &nbsp; <i class="fas fa-blog"></i></h5>
+    <div class="card-body">
+      <p class="card-text text-break">
+          Este es un espacio desarrollado para la comunidad de información, el objetivo de Blog Web
+          es que sus usuarios puedan ingresar a crear sus espacios o sus blogs donde puedan, da información
+          o cualquier tipo de comunicación escrita y con contenido audiovisual, ingresa para descubrir
+          mas de Blog Web
+      </p>
+      <a href="" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalLoginForm">Iniciar Sesión</a>
+    </div>
+</div>
+
+<form action="{{ path('registro') }}" method="POST">
+<div class="modal fade " id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center text-white special-color-dark">
+        <h4 class="modal-title w-100 font-weight-bold">Registrarse</h4>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <i class="fas fa-user prefix grey-text"></i>
+          <input name="name" type="text" id="orangeForm-name" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-name">Nombres</label>
+        </div>
+        <div class="md-form mb-5">
+            <i class="fas fa-user prefix grey-text"></i>
+            <input name="lastname" type="text" id="orangeForm-lastName" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="orangeForm-lastName">Apellidos</label>
+        </div>
+        <div class="md-form mb-5">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input name="email" type="email" id="orangeForm-email" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-email">Correo Electronico</label>
+        </div>
+
+        <div class="md-form mb-4">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <input name="password" type="password" id="orangeForm-pass" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-pass">Contraseña</label>
+        </div>
+        <div class="md-form mb-4">
+            <i class="fas fa-lock prefix grey-text"></i>
+            <input name="confpassword" type="password" id="orangeForm-passconf" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="orangeForm-passconf">Confirmar Contraseña</label>
+        </div>
+        
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" class="btn btn-outline-primary" >Registrarse</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<form action="{{ path('log') }}" method="POST">
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center text-white special-color-dark">
+        <h4 class="modal-title w-100 font-weight-bold">Iniciar Sesión</h4>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input name="email" type="email" id="defaultForm-email" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="defaultForm-email">Correo Electronico</label>
+        </div>
+
+        <div class="md-form mb-4">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <input name="password" type="password" id="defaultForm-pass" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="defaultForm-pass">Contraseña</label>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" class="btn btn-outline-primary">Iniciar Sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<footer style="position: absolute; bottom: 0; width: 100%" class="page-footer font-small unique-color-dark pt-1">
+
+    <div class="container">
+  
+      <ul class="list-unstyled list-inline text-center py-0">
+        <li class="list-inline-item">
+          <h5 class="mb-1">Registro Gratuito</h5>
+        </li>
+        <li class="list-inline-item">
+          <a href="" data-toggle="modal" data-target="#modalRegisterForm" class="btn btn-outline-white btn-rounded"><i class="fas fa-sign-in-alt"></i></a>
+        </li>
+      </ul>
+  
+    </div>
+  
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+      Blog Web &nbsp; <i class="fas fa-blog"></i>
+    </div>
+  
+  </footer>
+{% endblock %}
