@@ -117,11 +117,7 @@ class IndexController extends AbstractController
                     $temp->setCorreo($user->getCorreo());
                     $temp->setFechaIngreso($user->getFechahora());
 
-
-                    $response = $this->forward('App\Controller\UserController::cuentaUser', array(
-                        'name' => $temp->getNombre(), 
-                        'lastname' => $temp->getApellido()
-                    ));
+                    $response = $this->forward('App\Controller\UserController::cuentaUser');
                     return $response;
                 }else{
                     dump("error no hay datos que conincidan"); die;

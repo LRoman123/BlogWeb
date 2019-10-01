@@ -7,6 +7,7 @@ use App\Entity\Notas;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Models\TempUser;
 
 
 class UserController extends AbstractController{
@@ -14,7 +15,7 @@ class UserController extends AbstractController{
     /**
     * @Route("/blogweb/user", name="loguser")
     */
-    public function cuentaUser(Request $request, $name, $lastname){
+    public function cuentaUser(Request $request){
 
         dump($name);
         dump($lastname);
