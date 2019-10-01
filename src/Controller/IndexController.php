@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 use DateTimeZone;
+use Nelmio\CorsBundle;
+use Symfony\Component\HttpFoundation\Request;
+use App\Models\TempUser;
 
 class IndexController extends AbstractController
 {
@@ -84,6 +87,7 @@ class IndexController extends AbstractController
         if ($_POST) {
             $email = $_REQUEST['email'];
             $password = $_REQUEST['password'];
+            $temp = new TempUser();
 
             $pass = md5($password);
 
@@ -107,8 +111,18 @@ class IndexController extends AbstractController
                 );
 
                 if ($user != null) {
-                    $name = $user->getNombre();
-                    return $this->redirectToRoute('loguser', array('name' => $name));
+
+                    $temp->setNombre($user->getNombre());
+                    $temp->setApellido($user->getApellido());
+                    $temp->setCorreo($user->getCorreo());
+                    $temp->setFechaIngreso($user->getFechahora());
+
+
+                    $response = $this->forward('App\Controller\UserController::cuentaUser', array(
+                        'name' => $temp->getNombre(), 
+                        'lastname' => $temp->getApellido()
+                    ));
+                    return $response;
                 }else{
                     dump("error no hay datos que conincidan"); die;
                 }
@@ -118,13 +132,4 @@ class IndexController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/blogweb/user/{name}", name="loguser")
-    */
-    public function cuentaUser($name){
-
-        $nombre = $name;
-
-        return $this->render('indexUser/indexUser.html.twig', array('name' => $nombre));
-    }
 }
