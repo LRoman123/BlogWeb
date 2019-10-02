@@ -41,6 +41,11 @@ class Userblog
      */
     private $fechahora;
 
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
+    private $encor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,18 @@ class Userblog
     public function setFechahora(\DateTimeInterface $fechahora): self
     {
         $this->fechahora = $fechahora;
+
+        return $this;
+    }
+
+    public function getEncor(): ?string
+    {
+        return $this->encor;
+    }
+
+    public function setEncor(string $encor): self
+    {
+        $this->encor = $encor;
 
         return $this;
     }

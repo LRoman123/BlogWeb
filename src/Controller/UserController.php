@@ -15,13 +15,13 @@ class UserController extends AbstractController{
     /**
     * @Route("/blogweb/user", name="loguser")
     */
-    public function cuentaUser(Request $request){
+    public function cuentaUser(Request $request, TempUser $temp){
 
-        dump($name);
-        dump($lastname);
+        dump($temp->getNombre());
+        dump($temp->getApellido());
         die;
 
-        return $this->render('indexUser/indexUser.html.twig', array('name' => $nombre));
+        return $this->render('indexUser/indexUser.html.twig');
     }
 
 

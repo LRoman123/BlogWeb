@@ -27,6 +27,8 @@ class IndexController extends AbstractController
     */
     public function registro(){
         if ($_POST) {
+            $entityManager = $this->getDoctrine()->getRepository('App:Userblog');
+
             $name = $_REQUEST['name'];
             $lastname = $_REQUEST['lastname'];
             $email = $_REQUEST['email'];
@@ -44,6 +46,15 @@ class IndexController extends AbstractController
                 'password' => $password,
                 'confPassword' => $confpassword
             );
+
+            $user = $entityManager->findOneBy(
+                array('correo' => $email)
+            );
+
+            if ($user !== null) {
+                $this->addFlash('notice', 'El correo ya existe');
+                return $this->render('index/erroresIndex.html.twig');
+            }
 
             if (count(array_filter($arrayRegistro)) !== count($arrayRegistro)) {
                 $this->addFlash('notice', 'Campos vacios en el formulario, imposible registrarse, vuelve a intentarlo');
@@ -63,12 +74,14 @@ class IndexController extends AbstractController
                     $user = new Userblog();
 
                     $pass = md5($password);
+                    $encor = md5($email);
 
                     $user->setNombre($name);
                     $user->setApellido($lastname);
                     $user->setCorreo($email);
                     $user->setContraseña($pass);
                     $user->setFechahora($date);
+                    $user->setEncor($encor);
 
                     $entityManager->persist($user);
                     $entityManager->flush();
@@ -83,13 +96,13 @@ class IndexController extends AbstractController
     /**
      * @Route("/blogWeb", name="log") 
     */
-    public function inicio(){
+    public function inicio(TempUser $temp){
         if ($_POST) {
             $email = $_REQUEST['email'];
             $password = $_REQUEST['password'];
-            $temp = new TempUser();
 
             $pass = md5($password);
+            $encor = md5($email);
 
             $arrayInicio = array(
                 'email' => $email, 'password' => $password
@@ -112,10 +125,9 @@ class IndexController extends AbstractController
 
                 if ($user != null) {
 
-                    $temp->setNombre($user->getNombre());
-                    $temp->setApellido($user->getApellido());
-                    $temp->setCorreo($user->getCorreo());
-                    $temp->setFechaIngreso($user->getFechahora());
+                    $token = $this->forward('App\Models\TempUser::user', array('email' => $encor));
+
+                    dump($temp::user); die;
 
                     $response = $this->forward('App\Controller\UserController::cuentaUser');
                     return $response;

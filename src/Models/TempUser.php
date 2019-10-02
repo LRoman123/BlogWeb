@@ -2,48 +2,34 @@
 
 namespace App\Models;
 
-class TempUser{
-    
-    private $nombre;
-    private $apellido;
-    private $correo;
-    private $fechaIngreso;
+use App\Entity\Userblog;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
-    public function getNombre(): ?string{
-        return $this->nombre;
+class TempUser extends AbstractController{
+
+    private $name;
+    private $lastname;
+    private $email;
+    private $date;
+
+    public function user($email){
+        $entityManager = $this->getDoctrine()->getRepository('App:Userblog');
+        $user = $entityManager->findOneBy(array('encor' => $email));
+        
+        $name = $user->getNombre();
+        $lastname = $user->getApellido();
+        $email = $user->getCorreo();
+        $date = $user->getFechahora();
+
+        return array(
+            'name' => $name,
+            'lastname' => $lastname,
+            'email' => $email,
+            'date' => $date
+        );
+        
+
     }
-
-    public function setNombre(string $nombre): self{
-        $this->nombre = $nombre;
-        return $this;
-    }
-
-    public function getApellido(): ?string{
-        return $this->apellido;
-    }
-
-    public function setApellido(string $apellido): self{
-        $this->apellido = $apellido;
-        return $this;
-    }
-
-    public function getCorreo(): ?string{
-        return $this->correo;
-    }
-
-    public function setCorreo(string $correo): self{
-        $this->correo = $correo;
-        return $this;
-    }
-
-    public function getFechaIngreso(): ?\DateTimeInterface{
-        return $this->fechaIngreso;
-    }
-
-    public function setFechaIngreso(\DateTimeInterface $fechaIngreso): self{
-        $this->fechaIngreso = $fechaIngreso;
-        return $this;
-    }
-
 
 }
