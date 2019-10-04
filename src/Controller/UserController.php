@@ -8,20 +8,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Models\TempUser;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class UserController extends AbstractController{
 
-    /**
-    * @Route("/blogweb/user", name="loguser")
-    */
-    public function cuentaUser(Request $request, TempUser $temp){
+    private $session;
 
-        dump($temp->getNombre());
-        dump($temp->getApellido());
-        die;
+    public function __construct(SessionInterface $session){
+        $this->session = $session;
+    }
 
-        return $this->render('indexUser/indexUser.html.twig');
+    public function cuentaUser($encor){
+        $this->session->set('encript', $encor);
+        $encript = $this->session->get('encript');
+
+        $token = $this->forward('App\Models\TempUser::user', array('email' => $encript));
+        $dato = json_decode($token->getContent(), true);
+
+        return $this->render('indexUser/indexUser.html.twig', array('dato' => $dato));
     }
 
 

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use DateTimeZone;
 use Nelmio\CorsBundle;
 use Symfony\Component\HttpFoundation\Request;
-use App\Models\TempUser;
+use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
@@ -96,7 +96,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/blogWeb", name="log") 
     */
-    public function inicio(TempUser $temp){
+    public function inicio(){
         if ($_POST) {
             $email = $_REQUEST['email'];
             $password = $_REQUEST['password'];
@@ -124,12 +124,7 @@ class IndexController extends AbstractController
                 );
 
                 if ($user != null) {
-
-                    $token = $this->forward('App\Models\TempUser::user', array('email' => $encor));
-
-                    dump($temp::user); die;
-
-                    $response = $this->forward('App\Controller\UserController::cuentaUser');
+                    $response = $this->forward('App\Controller\UserController::cuentaUser', array('encor' => $encor));
                     return $response;
                 }else{
                     dump("error no hay datos que conincidan"); die;

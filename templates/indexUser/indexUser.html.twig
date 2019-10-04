@@ -16,7 +16,7 @@
     </ul>
     <ul class="navbar-nav ml-auto nav-flex-icons">
       <li class="navbar-brand text-white">
-        Blogger: {{ name }}
+        Blogger: {{ dato.name }}
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
@@ -36,7 +36,7 @@
 </nav>
 
 <div class="card mt-5 container">
-  <h5 class="card-header h5">Bienvenido {{ name }}</h5>
+  <h5 class="card-header h5">Bienvenido {{ dato.name }} {{ dato.lastname }}</h5>
   <div class="card-body">
     <p class="card-text text-break">
       Haz Iniciado Session con exito
