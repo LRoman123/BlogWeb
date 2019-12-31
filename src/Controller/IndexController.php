@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 use DateTimeZone;
+use Nelmio\CorsBundle;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
@@ -24,6 +27,8 @@ class IndexController extends AbstractController
     */
     public function registro(){
         if ($_POST) {
+            $entityManager = $this->getDoctrine()->getRepository('App:Userblog');
+
             $name = $_REQUEST['name'];
             $lastname = $_REQUEST['lastname'];
             $email = $_REQUEST['email'];
@@ -41,6 +46,15 @@ class IndexController extends AbstractController
                 'password' => $password,
                 'confPassword' => $confpassword
             );
+
+            $user = $entityManager->findOneBy(
+                array('correo' => $email)
+            );
+
+            if ($user !== null) {
+                $this->addFlash('notice', 'El correo ya existe');
+                return $this->render('index/erroresIndex.html.twig');
+            }
 
             if (count(array_filter($arrayRegistro)) !== count($arrayRegistro)) {
                 $this->addFlash('notice', 'Campos vacios en el formulario, imposible registrarse, vuelve a intentarlo');
@@ -60,12 +74,14 @@ class IndexController extends AbstractController
                     $user = new Userblog();
 
                     $pass = md5($password);
+                    $encor = md5($email);
 
                     $user->setNombre($name);
                     $user->setApellido($lastname);
                     $user->setCorreo($email);
                     $user->setContraseña($pass);
                     $user->setFechahora($date);
+                    $user->setEncor($encor);
 
                     $entityManager->persist($user);
                     $entityManager->flush();
@@ -86,6 +102,7 @@ class IndexController extends AbstractController
             $password = $_REQUEST['password'];
 
             $pass = md5($password);
+            $encor = md5($email);
 
             $arrayInicio = array(
                 'email' => $email, 'password' => $password
@@ -107,8 +124,8 @@ class IndexController extends AbstractController
                 );
 
                 if ($user != null) {
-                    $name = $user->getNombre();
-                    return $this->redirectToRoute('loguser', array('name' => $name));
+                    $response = $this->forward('App\Controller\UserController::cuentaUser', array('encor' => $encor));
+                    return $response;
                 }else{
                     dump("error no hay datos que conincidan"); die;
                 }
@@ -118,13 +135,4 @@ class IndexController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/blogweb/user/{name}", name="loguser")
-    */
-    public function cuentaUser($name){
-
-        $nombre = $name;
-
-        return $this->render('indexUser/indexUser.html.twig', array('name' => $nombre));
-    }
 }
